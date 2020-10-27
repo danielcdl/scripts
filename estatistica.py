@@ -1,35 +1,55 @@
-lista = []
-while True:
-    try:  # verifica se a entrada é válida
-        n = (int(input('Digite um número inteiro: ')))
-        if n <= 0:
-            break
-        lista.append(n)
-    except ValueError:
-        print('O valor digitado não é inteiro. Tente Novamente')
+def media(amostra: list):
+    """
+    :param amostra: lista de elementos da amostra
+    :return: float
+    """
+    quantidade_entradas = len(amostra)
+    resultado = sum(amostra) / quantidade_entradas
+    return resultado
 
-quantidade_entradas = len(lista)
-media = sum(lista) / quantidade_entradas
 
-lista = sorted(lista)
-posicao = int(quantidade_entradas / 2)
-if quantidade_entradas % 2 == 1:
-    mediana = lista[posicao]
-else:
-    mediana = (lista[posicao - 1] + lista[posicao]) / 2
+def mediana(amostra: list):
+    amostra = sorted(amostra)
+    posicao = int(len(amostra) / 2)
+    if len(amostra) % 2 == 1:
+        resultado = amostra[posicao]
+    else:
+        resultado = (amostra[posicao - 1] + amostra[posicao]) / 2
+    return resultado
 
-chaves = set(lista)  # cria um conjunto com os valores da entrada. sem valores repetidos
-quantidades = {}
-for chave in chaves:  # cria um dicionario com a quantida de entradas para cada valor
-    quantidades[chave] = lista.count(chave)
 
-valor_moda = max(quantidades.values())
-moda = []
-for chave in chaves:
-    if quantidades[chave] == valor_moda:
-        moda.append(chave)
+def moda(amostra: list):
+    chaves = set(amostra)  # cria um conjunto com os valores da entrada. sem valores repetidos
+    quantidades = {}
+    for chave in chaves:  # cria um dicionario com a quantida de entradas para cada valor
+        quantidades[chave] = amostra.count(chave)
 
-print(lista)
-print(f'A media dos números digitados é: {media}.')
-print(f'A mediana dos números digitados é: {mediana}.')
-print(f'A moda dos números digitados é: {moda}.')
+    valor_moda = max(quantidades.values())
+    resultado = []
+    for chave in chaves:
+        if quantidades[chave] == valor_moda:
+            resultado.append(chave)
+    return resultado
+
+
+def main():
+    lista = []
+    while True:
+        try:  # verifica se a entrada é válida
+            n = (input('Digite o valor da amostra ou "fim" para  calcular: '))
+            if n.lower() == "fim":
+                break
+            else:
+                lista.append(float(n))
+        except ValueError:
+            print('O valor digitado não é um número. Tente Novamente')
+
+    lista = sorted(lista)
+    print(lista)
+    print(f'A media dos números digitados é: {media(lista)}.')
+    print(f'A mediana dos números digitados é: {mediana(lista)}.')
+    print(f'A moda dos números digitados é: {moda(lista)}.')
+
+
+if __name__ == "__main__":
+    main()
