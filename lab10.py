@@ -36,8 +36,6 @@ def achar_palavra(palavra, matriz):
 				posicoes_iniciais.append((i, j))
 
 
-
-
 	for par in posicoes_iniciais:
 		# busca horizontal
 		encontrada = True
@@ -74,9 +72,45 @@ def achar_palavra(palavra, matriz):
 				localizacao.extend(posicoes)
 
 		# diagonal cima/baixo
+		encontrada = True
+		posicoes = []
+		# se a palavra couber na diagonal de cima/esquerda para baixo/direita
+		if len(matriz[par[0]]) - par[1] >= len(palavra) and len(matriz) - par[0] >= len(palavra):
+			pos_i = par[0]
+			pos_j = par[1]
+			for letra in palavra:
+				if letra == matriz[pos_i][pos_j] or matriz[pos_i][pos_j] == '*':
+					posicoes.append((pos_i, pos_j))
+				else:
+					encontrada = False
+					break
+				pos_i += 1
+				pos_j += 1
+
+			if encontrada:
+				ocorrencias += 1
+				localizacao.extend(posicoes)
 
 		# diagonal baixo/cima
-	print(localizacao)
+		encontrada = True
+		posicoes = []
+		# se a palavra couber na diagonal de baixo/esquerda para cima/direita
+		if len(matriz[par[0]]) - par[1] >= len(palavra) and par[0] >= len(palavra)-1:
+			pos_i = par[0]
+			pos_j = par[1]
+			for letra in palavra:
+				if letra == matriz[pos_i][pos_j] or matriz[pos_i][pos_j] == '*':
+					posicoes.append((pos_i, pos_j))
+				else:
+					encontrada = False
+					break
+				pos_i -= 1
+				pos_j += 1
+
+			if encontrada:
+				ocorrencias += 1
+				localizacao.extend(posicoes)
+
 	return (ocorrencias, localizacao)
 
 def main():
