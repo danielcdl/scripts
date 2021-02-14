@@ -1,74 +1,56 @@
-soma = 0
 
-#validador do formato do cpf
-while True:
-    cpf = input("Digite o CPF: ")
+# Validador do formato do cpf
 
-    # remover pontos e traços
-    if '.' in cpf:
-        cpf = cpf.replace('.', '')
-    if '-' in cpf:
-        cpf = cpf.replace('-', '')
+def entrada():
+    while True:
+        cpf = input("Digite o CPF: ")
 
-    if len(cpf) == 11:
-        inteiros = True
-        try:
-            int(cpf)
-            break
-        except ValueError:
+        # remover pontos e traços
+        if '.' in cpf:
+            cpf = cpf.replace('.', '')
+        if '-' in cpf:
+            cpf = cpf.replace('-', '')
+
+        if len(cpf) == 11:
+            try:
+                int(cpf)
+                return cpf
+            except ValueError:
+                print("CPF Inválido, tente novamente")
+        else:
             print("CPF Inválido, tente novamente")
-    else:
-        print("CPF Inválido, tente novamente")
 
-# itera duas listas, uma com os 9 primeiros digitos do cpf e outra com os numeros
-# de 10 até 2
-for digito, i in zip(cpf[:9], range(10, 1, -1)):
-
-    print("CPF", digito, "*", i, "=", int(digito) * i)
-    soma += int(digito) * i
-
-    print("Soma da validação ", soma)
-
-validacao1 = (soma * 10) / 11 # INÚTIL
-
-print("Resultado da ((primeira soma * 10)/11) = ", validacao1)
-
-resto_validacao1 = (soma * 10) % 11
-
-print("Resto da primeira validação: ", resto_validacao1)
-
-if resto_validacao1 == 10:
-    resto_validacao1 = 0
-
-if resto_validacao1 != (int(cpf[9])):
-    print("CPF invalido..")
-
-else:
-    print("Validação confirmada!!")
+def validar(cpf):
 
     soma = 0
-
-    # itera duas listas, uma com os 10 primeiros digitos do cpf e outra com os numeros
-    # de 11 até 2
-    for digito, i in zip(cpf[:10], range(11, 1, -1)):
-        print("CPF ", digito, "Multiplicador", i, "resulta", int(digito) * i)
+    for digito, i in zip(cpf[:9], range(10, 1, -1)):
         soma += int(digito) * i
 
-    print("Soma da segunda verificação: ", soma)
+    digito1 = (soma * 10) % 11
 
-    validacao2 = (soma * 10) / 11
+    if digito1 == 10:
+        digito1 = 0
 
-    print("Resultado da segunda soma ", validacao2)
+    if digito1 == (int(cpf[9])):
+        soma = 0
+        for digito, i in zip(cpf[:10], range(11, 1, -1)):
+            soma += int(digito) * i
 
-    resto_validacao2 = (soma * 10) % 11
+        digito2 = (soma * 10) % 11
 
-    if resto_validacao2 == 10:
-        resto_validacao2 = 0
+        if digito2 == 10:
+            digito2 = 0
 
-    print("Resto da segunda verificação: ", resto_validacao2)
+        if digito2 == int(cpf[10]):
+            return True
 
-    if resto_validacao2 == int(cpf[10]):
-        print("Validação confirmada!")
+    return False
 
+if __name__ == '__main__':
+    cpf = entrada()
+    valido = validar(cpf)
+    cpf = f'{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}'
+    if valido:
+        print(f'O CPF {cpf} é válido')
     else:
-        print("CPF invalido. Por favor informe outro CPF...")
+        print(f'O CPF {cpf} é inválido')

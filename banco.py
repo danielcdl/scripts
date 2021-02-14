@@ -1,14 +1,19 @@
-def ler(Nome_Arq):#recebe o input de 'pasta\nome'
-    try:
-        banco = open(Nome_Arq+'.shcs','r') #procura por pasta\nome.shcs se n achar da erro o aruivo nessa pasta da error
-        banco = banco.read()
-        print('leu o arquivo')
-    except FileNotFoundError:#então inicia a criação
-        try:
-            banco = open(Nome_Arq+'.shcs','w') #procura a pasta para criar o arquivo e se nao achar a pasta da error
-            banco = banco.write('')
-            print('criou o arquivo')
-        except FileNotFoundError:
-            print('pasta nao encontrada')#e então aqui eu quero parar todo o processo para n ir para o finelly pq la vai procurar o arquivo dnv e vai da error
-            input()
-            return
+notas = [100, 50, 20, 10, 5, 2, 1]
+
+while True:
+    valor_saque = input('Qual o valor que gostaria de sacar? R$ ')
+    if valor_saque.isdigit():
+        valor_saque = int(valor_saque)
+        quantidade_notas = {}
+        valor = valor_saque
+        for nota in notas:
+            quantidade = 0
+            while valor >= nota:
+                valor -= nota
+                quantidade += 1
+            if quantidade > 0:
+                quantidade_notas[nota] = quantidade
+        print(quantidade_notas)
+    else:
+        print('digite um valor inteiro')
+    
